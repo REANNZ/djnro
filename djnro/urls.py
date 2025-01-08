@@ -37,7 +37,7 @@ urlpatterns = [
         name='registration_activation_complete'
     ),
     #url(r'^tinymce/', include('tinymce.urls')),
-    path("tinymce/", tinymce.urls),
+    path("tinymce/", include('tinymce.urls')),
     #url(r'^', include('edumanage.urls')),
     re_path(r'^', edumanage.urls),
 ]
