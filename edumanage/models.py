@@ -1007,8 +1007,7 @@ class RealmServer(models.Model):
     server_name = models.CharField(max_length=80, help_text=_("IP address | FQDN hostname"))
     server_type = models.PositiveIntegerField(
         choices=EDB_SERVER_TYPES,
-        help_text=_("Realm server type"),
-        on_delete=models.CASCADE
+        help_text=_("Realm server type")
     )
 
     class Meta:
