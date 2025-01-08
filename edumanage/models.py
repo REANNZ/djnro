@@ -460,7 +460,7 @@ class Address_i18n(models.Model):
     street = CharField(max_length=255)
     city = CharField(max_length=255)
     lang = models.CharField(max_length=5, choices=get_choices_from_settings('URL_NAME_LANGS'))
-    content_type = models.ForeignKey(ContentType, blank=True, null=Tru, on_delete=models.CASCADEe)
+    content_type = models.ForeignKey(ContentType, blank=True, null=True, on_delete=models.CASCADEe)
     object_id = models.PositiveIntegerField(blank=True, null=True)
     content_object = fields.GenericForeignKey('content_type', 'object_id')
 
