@@ -939,8 +939,7 @@ class Realm(models.Model):
         Coordinates,
         on_delete=models.SET_NULL,
         blank=True,
-        null=True,
-        on_delete=models.CASCADE
+        null=True
     )
     contact = models.ManyToManyField(Contact)
     url = fields.GenericRelation(URL_i18n)
