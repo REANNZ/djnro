@@ -415,7 +415,7 @@ class Coordinates(models.Model):
 
 @python_2_unicode_compatible
 class InstitutionContactPool(models.Model):
-    contact = models.OneToOneField(Contact)
+    contact = models.OneToOneField(Contact, on_delete=models.CASCADE)
     institution = models.ForeignKey("Institution", on_delete=models.CASCADE)
 
     def __str__(self):
@@ -668,7 +668,7 @@ class MonLocalAuthnParam(models.Model):
 #                ('both', 'RESERVED'),
 #               )
 
-    instrealmmonid = models.OneToOneField("InstRealmMon")
+    instrealmmonid = models.OneToOneField("InstRealmMon", on_delete=models.CASCADE)
     eap_method = models.CharField(max_length=16, choices=EAPTYPES)
     phase2 = models.CharField(max_length=16, choices=EAP2TYPES)
     # only local-part, no realm
@@ -864,7 +864,7 @@ class InstitutionDetails(models.Model):
     '''
     Institution Details
     '''
-    institution = models.OneToOneField(Institution)
+    institution = models.OneToOneField(Institution, on_delete=models.CASCADE)
     # TODO: multiple addresses can be specified [...] address in English is required
     address = fields.GenericRelation(Address_i18n)
     coordinates = models.ForeignKey(
@@ -971,7 +971,7 @@ class RealmData(models.Model):
     Realm statistics
     '''
 
-    realmid = models.OneToOneField(Realm)
+    realmid = models.OneToOneField(Realm, on_delete=models.CASCADE)
     # db: select count(institution.id) as number_inst from institution, realm where institution.realmid == realm.realmid
     number_inst = models.PositiveIntegerField(editable=False)
     # db: select sum(institution.number_user) as number_user from institution, realm where institution.realmid == realm.realmid
