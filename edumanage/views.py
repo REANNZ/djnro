@@ -113,7 +113,7 @@ def set_language(request):
     if request.method == 'POST':
         lang_code = request.POST.get('language', None)
         if lang_code and i18n.check_for_language(lang_code):
-            if hasattr(request, 'session') and request.user.is_authenticated():
+            if hasattr(request, 'session') and request.user.is_authenticated:
                 request.session[i18n.LANGUAGE_SESSION_KEY] = lang_code
             response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang_code,
                                 max_age=settings.LANGUAGE_COOKIE_AGE,
@@ -146,7 +146,7 @@ def manage_login_front(request):
             'edumanage/welcome_manage.html',
             context={}
         )
-    if user.is_authenticated() and user.is_active and profile.is_social_active:
+    if user.is_authenticated and user.is_active and profile.is_social_active:
         return redirect(reverse('manage'))
     else:
         return render(
