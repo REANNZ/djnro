@@ -39,5 +39,5 @@ urlpatterns = [
     #url(r'^tinymce/', include('tinymce.urls')),
     path("tinymce/", include('tinymce.urls')),
     #url(r'^', include('edumanage.urls')),
-    re_path(r'^', edumanage.urls),
+    re_path(r'^', include('edumanage.urls')),
 ]
