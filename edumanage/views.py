@@ -31,6 +31,7 @@ from django.contrib import messages
 from django.db.models import Max
 from django.views.decorators.cache import never_cache
 from django.utils.translation import ugettext as _
+from django.utils.translation import get_language
 from django.utils import six
 from accounts.models import User
 from django.core.cache import cache
@@ -1472,7 +1473,7 @@ def render_with_base_ctx(request, *args, **kwargs):
 @social_active_required
 @never_cache
 def get_service_points(request):
-    lang = request.LANGUAGE_CODE
+    lang = django.utils.translation.get_language()
     if request.method == "GET":
         user = request.user
         try:
@@ -1509,7 +1510,7 @@ def overview(request):
 
 @never_cache
 def get_all_services(request):
-    lang = request.LANGUAGE_CODE
+    lang = django.utils.translation.get_language()
     locs = localizePointNames(ourPoints(), lang)
     return HttpResponse(json.dumps(locs), content_type='application/json')
 
@@ -1607,7 +1608,7 @@ def user_login(request):
                     " account has remained inactive for a long time contact"
                     " your technical coordinator or %(nroname)s Helpdesk") % {
                     'username': user.username,
-                    'nroname': get_nro_name(request.LANGUAGE_CODE)
+                    'nroname': get_nro_name(django.utils.translation.get_language())
                     }
 
                 return render(
@@ -1682,9 +1683,9 @@ def participants(request):
         dets.append(i.institutiondetails)
         if i.get_active_cat_enrl(cat_instance):
             cat_exists = True
-    with setlocale((request.LANGUAGE_CODE, 'UTF-8'), locale.LC_COLLATE):
+    with setlocale((django.utils.translation.get_language(), 'UTF-8'), locale.LC_COLLATE):
         dets.sort(key=lambda x: compat_strxfrm(
-            x.institution.get_name(lang=request.LANGUAGE_CODE)))
+            x.institution.get_name(lang=django.utils.translation.get_language())))
     return render(
         request,
         'front/participants.html',
@@ -1712,9 +1713,9 @@ def connect(request):
             # only use first inst+CAT binding (per CAT instance), even if there
             # may be more
             dets_cat[i.pk] = catids[0]
-    with setlocale((request.LANGUAGE_CODE, 'UTF-8'), locale.LC_COLLATE):
+    with setlocale((django.utils.translation.get_language(), 'UTF-8'), locale.LC_COLLATE):
         dets.sort(key=lambda x: compat_strxfrm(
-            x.institution.get_name(lang=request.LANGUAGE_CODE)))
+            x.institution.get_name(lang=django.utils.translation.get_language())))
     if settings_dict_get('CAT_AUTH', cat_instance) is None:
         cat_exists = False
         cat_api_direct = None
@@ -1780,7 +1781,7 @@ def selectinst(request):
                 " has remained inactive for a long time contact your technical"
                 " coordinator or %(nroname)s Helpdesk") % {
                 'username': userprofile.user.username,
-                'nroname': get_nro_name(request.LANGUAGE_CODE)
+                'nroname': get_nro_name(django.utils.translation.get_language())
                 }
             return render(
                 request,
@@ -2628,14 +2629,14 @@ def adminlist(request):
     users = User.objects.filter(userprofile__isnull=False,
                                 registrationprofile__isnull=False)
     data = [
-        (u.userprofile.institution.get_name(request.LANGUAGE_CODE),
+        (u.userprofile.institution.get_name(django.utils.translation.get_language()),
          u.first_name + " " + u.last_name,
          m)
         for u in users if
         u.registrationprofile.activation_key == "ALREADY_ACTIVATED"
         for m in u.email.split(';')
     ]
-    with setlocale((request.LANGUAGE_CODE, 'UTF-8'), locale.LC_COLLATE):
+    with setlocale((django.utils.translation.get_language(), 'UTF-8'), locale.LC_COLLATE):
         data.sort(key=lambda d: compat_strxfrm(d[0]))
     resp_body = ""
     for (foreas, onoma, email) in data:

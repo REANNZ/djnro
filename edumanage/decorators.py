@@ -38,7 +38,7 @@ def social_active_required(function):
                     " account has remained inactive for a long time contact"
                     " your technical coordinator or %(nroname)s Helpdesk") % {
                     'username': user.username,
-                    'nroname': edumanage.views.get_nro_name(request.LANGUAGE_CODE)
+                    'nroname': edumanage.views.get_nro_name(django.utils.translation.get_language())
                     }
                 return render(
                     request,
