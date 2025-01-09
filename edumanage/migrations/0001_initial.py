@@ -49,7 +49,7 @@ class Migration(migrations.Migration):
             name='InstitutionContactPool',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('contact', models.OneToOneField(to='edumanage.Contact')),
+                ('contact', models.OneToOneField(to='edumanage.Contact', on_delete=models.CASCADE)),
                 ('institution', models.ForeignKey(to='edumanage.Institution', on_delete=models.CASCADE)),
             ],
             options={
@@ -68,7 +68,7 @@ class Migration(migrations.Migration):
                 ('number_id', models.PositiveIntegerField(help_text='Number of issued e-identities (credentials) that may be used for authentication in eduroam service', null=True, blank=True)),
                 ('ts', models.DateTimeField(auto_now=True)),
                 ('contact', models.ManyToManyField(to='edumanage.Contact')),
-                ('institution', models.OneToOneField(to='edumanage.Institution')),
+                ('institution', models.OneToOneField(to='edumanage.Institution', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': "Institutions' Details",
@@ -129,7 +129,7 @@ class Migration(migrations.Migration):
                 ('phase2', models.CharField(max_length=16, choices=[('PAP', 'PAP'), ('CHAP', 'CHAP'), ('MS-CHAPv2', 'MS-CHAPv2')])),
                 ('username', models.CharField(max_length=36)),
                 ('passwp', models.CharField(max_length=80, db_column='pass')),
-                ('instrealmmonid', models.OneToOneField(to='edumanage.InstRealmMon')),
+                ('instrealmmonid', models.OneToOneField(to='edumanage.InstRealmMon', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Monitored Realm (local authn)',
@@ -194,7 +194,7 @@ class Migration(migrations.Migration):
                 ('number_SP', models.PositiveIntegerField(editable=False)),
                 ('number_IdPSP', models.PositiveIntegerField(editable=False)),
                 ('ts', models.DateTimeField(editable=False)),
-                ('realmid', models.OneToOneField(to='edumanage.Realm')),
+                ('realmid', models.OneToOneField(to='edumanage.Realm', on_delete=models.CASCADE)),
             ],
         ),
         migrations.CreateModel(
