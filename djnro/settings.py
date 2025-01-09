@@ -109,7 +109,7 @@ TEMPLATES = [
 
 MIDDLEWARE = (
     'django.middleware.cache.UpdateCacheMiddleware',
-    'django_dont_vary_on.middleware.RemoveUnneededVaryHeadersMiddleware',
+    'django_dont_vary_on.middleware.RemoveUnneededVaryHeadersMiddleware', # sus
     'django.middleware.gzip.GZipMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -117,10 +117,11 @@ MIDDLEWARE = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
     # Simple clickjacking protection:
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    # NOTE: This must be the last item
+    'django.middleware.cache.FetchFromCacheMiddleware'
 )
 
 AUTHENTICATION_BACKENDS = (
