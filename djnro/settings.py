@@ -107,9 +107,9 @@ TEMPLATES = [
     },
 ]
 
-MIDDLEWARE = (
+MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
-    'django_dont_vary_on.middleware.RemoveUnneededVaryHeadersMiddleware', # sus
+    'django_dont_vary_on.middleware.RemoveUnneededVaryHeadersMiddleware',
     'django.middleware.gzip.GZipMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
