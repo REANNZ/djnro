@@ -1,10 +1,11 @@
 # encoding: utf-8
 import re
+from django.utils.deprecation import MiddlewareMixin
 
 cc_delim_re = re.compile(r'\s*,\s*')
 
 
-class RemoveUnneededVaryHeadersMiddleware(object):
+class RemoveUnneededVaryHeadersMiddleware(MiddlewareMixin):
     """
     Middleware that modifies the Vary header to optionally remove some values
     from the Vary header.
