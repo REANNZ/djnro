@@ -107,10 +107,8 @@ TEMPLATES = [
     },
 ]
 
-MIDDLEWARE = (
-    # NOTE: This must be the first item
+MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
-    # NOTE: according to docs, this class must be directly below UpdateCacheMiddleware
     'django_dont_vary_on.middleware.RemoveUnneededVaryHeadersMiddleware',
     'django.middleware.gzip.GZipMiddleware',
     'django.middleware.common.CommonMiddleware',
