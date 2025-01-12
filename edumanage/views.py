@@ -83,7 +83,6 @@ from edumanage.decorators import (social_active_required,
 from django.utils.cache import (
     get_max_age, patch_response_headers, patch_vary_headers
 )
-from django_dont_vary_on.decorators import dont_vary_on
 from utils.cat_helper import CatQuery
 from utils.locale import setlocale, compat_strxfrm
 
@@ -2688,7 +2687,6 @@ def _cat_api_cache_action(request, cat_instance):
     return (timeout, cache_kwargs)
 
 @cache_page_ifreq(_cat_api_cache_action)
-@dont_vary_on('Cookie')
 def cat_user_api_proxy(request, cat_instance):
     if cat_instance is None:
         cat_instance = 'production'
