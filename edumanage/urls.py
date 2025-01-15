@@ -92,4 +92,9 @@ urlpatterns = [
 
     #url(r'^overview/?$', edumanage.views.overview, name="overview"),
     path("overview/", edumanage.views.overview, name="overview"),
+
+    path("faq/el/", django.contrib.flatpages.views.flatpage, {"url": "/faq-el/"}, name="faq-el"),
+    path("faq/en/", django.contrib.flatpages.views.flatpage, {"url": "/faq-en/"}, name="faq-en"),
+    path("what/el/", django.contrib.flatpages.views.flatpage, {"url": "/what-el/"}, name="what-el"),
+    path("what/en/", django.contrib.flatpages.views.flatpage, {"url": "/what-en/"}, name="what-en"),
 ]
