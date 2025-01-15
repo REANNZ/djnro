@@ -94,8 +94,9 @@ urlpatterns = [
     #url(r'^overview/?$', edumanage.views.overview, name="overview"),
     path("overview/", edumanage.views.overview, name="overview"),
 
-    path("faq/el/", views.flatpage, {"url": "/faq-el/"}, name="faq-el"),
-    path("faq/en/", views.flatpage, {"url": "/faq-en/"}, name="faq-en"),
-    path("what/el/", views.flatpage, {"url": "/what-el/"}, name="what-el"),
-    path("what/en/", views.flatpage, {"url": "/what-en/"}, name="what-en"),
+    path("faq/el/", views.flatpage, {"url": "/faq/el/"}, name="faq-el"),
+    path("faq/en/", views.flatpage, {"url": "/faq/en/"}, name="faq-en"),
+    path("faq/mi/", views.flatpage, {"url": "/faq/mi/"}, name="faq-mi"),
+    path("what/el/", views.flatpage, {"url": "/what/el/"}, name="what-el"),
+    path("what/en/", views.flatpage, {"url": "/what/en/"}, name="what-en"),
 ]
