@@ -1,5 +1,6 @@
 from django.urls import path, re_path
 import edumanage.views
+import django.contrib.flatpages.views.flatpage as flatpage
 
 urlpatterns = [
     #url(r'^$', edumanage.views.index, name="index"),
@@ -93,8 +94,8 @@ urlpatterns = [
     #url(r'^overview/?$', edumanage.views.overview, name="overview"),
     path("overview/", edumanage.views.overview, name="overview"),
 
-    path("faq/el/", django.contrib.flatpages.views.flatpage, {"url": "/faq-el/"}, name="faq-el"),
-    path("faq/en/", django.contrib.flatpages.views.flatpage, {"url": "/faq-en/"}, name="faq-en"),
-    path("what/el/", django.contrib.flatpages.views.flatpage, {"url": "/what-el/"}, name="what-el"),
-    path("what/en/", django.contrib.flatpages.views.flatpage, {"url": "/what-en/"}, name="what-en"),
+    path("faq/el/", flatpage, {"url": "/faq-el/"}, name="faq-el"),
+    path("faq/en/", flatpage, {"url": "/faq-en/"}, name="faq-en"),
+    path("what/el/", flatpage, {"url": "/what-el/"}, name="what-el"),
+    path("what/en/", flatpage, {"url": "/what-en/"}, name="what-en"),
 ]
