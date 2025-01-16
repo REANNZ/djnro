@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from accounts.models import User
 from django.views.decorators.cache import never_cache
 from django import forms
-from registration.models import RegistrationProfile
+from django_registration.models import RegistrationProfile
 from accounts.models import UserProfile
 
 from edumanage.forms import UserProfileForm
