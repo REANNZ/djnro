@@ -170,7 +170,7 @@ INSTALLED_APPS = (
     'social_django',
     'edumanage',
     'accounts',
-    'registration',
+    'django-registration',
     'tinymce',
     'utils',
     'oauthlib',
