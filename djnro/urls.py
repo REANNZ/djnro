@@ -12,6 +12,8 @@ import accounts, accounts.views
 urlpatterns = [
     #url(r'^accounts/', include(social_django.urls, namespace='social')),
     path("accounts/", include(social_django.urls, namespace='social')),
+    # This is a new requirement for django-registration since django-registration:3.0
+    path('jamie/', include('django.contrib.auth.urls')),
     #url(r'^setlang/?$', edumanage.views.set_language, name='set_language'),
     path("setlang/", edumanage.views.set_language, name='set_language'),
     #url(r'^admin/', include(admin.site.urls)),
