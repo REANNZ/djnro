@@ -76,7 +76,7 @@ from edumanage.forms import (
     InstitutionURL_i18nFormSet,
     InstServerForm
 )
-from registration.models import RegistrationProfile
+from django_registration.models import RegistrationProfile
 from edumanage.decorators import (social_active_required,
                                   cache_page_ifreq,
                                   detect_eduroam_db_version)
