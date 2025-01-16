@@ -107,20 +107,20 @@ TEMPLATES = [
     },
 ]
 
+# Middlware order is suggested at https://docs.djangoproject.com/en/5.1/ref/middleware/#middleware-ordering
 MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.gzip.GZipMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    # NOTE: Must be after SessionMiddleware and before CsrfViewMiddleware
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Simple clickjacking protection:
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-    # NOTE: This must be the last item
+    # Recommended as last item
     'django.middleware.cache.FetchFromCacheMiddleware'
 )
 
