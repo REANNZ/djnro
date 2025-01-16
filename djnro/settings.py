@@ -108,7 +108,7 @@ TEMPLATES = [
 ]
 
 # Middlware order is suggested at https://docs.djangoproject.com/en/5.1/ref/middleware/#middleware-ordering
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.gzip.GZipMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
