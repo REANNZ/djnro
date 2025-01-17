@@ -76,7 +76,8 @@ from edumanage.forms import (
     InstitutionURL_i18nFormSet,
     InstServerForm
 )
-from django_registration.models import RegistrationProfile
+#from registration.models import RegistrationProfile
+from django_registration.backends.activation.views import RegistrationView
 from edumanage.decorators import (social_active_required,
                                   cache_page_ifreq,
                                   detect_eduroam_db_version)
@@ -1820,11 +1821,11 @@ def user_activation_notify(request, userprofile):
     )
     # Email subject *must not* contain newlines
     subject = ''.join(subject.splitlines())
-    registration_profile = RegistrationProfile.objects.create_profile(userprofile.user)
+    #registration_profile = RegistrationProfile.objects.create_profile(userprofile.user)
     message = render_to_string(
         'registration/activation_email.txt',
         {
-            'activation_key': registration_profile.activation_key,
+            'activation_key': RegistrationView.get_activation_key(userprofile),
             'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
             'site': current_site,
             'user': userprofile.user,
