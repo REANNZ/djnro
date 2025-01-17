@@ -9,7 +9,8 @@ from django.utils.translation import ugettext_lazy as _
 from accounts.models import User
 from django.views.decorators.cache import never_cache
 from django import forms
-from django_registration.models import RegistrationProfile
+#from registration.models import RegistrationProfile
+from django_registration.backends.activation.views import ActivationView
 from accounts.models import UserProfile
 
 from edumanage.forms import UserProfileForm
@@ -25,8 +26,9 @@ def activate(request, activation_key):
         # Normalize before trying anything with it.
         activation_key = activation_key.lower()
         try:
-            rp = RegistrationProfile.objects.get(activation_key=activation_key)
-        except RegistrationProfile.DoesNotExist:
+            #rp = RegistrationProfile.objects.get(activation_key=activation_key)
+            username = ActivationView.validate_key(activation_key)
+        except django_registration.exceptions.ActivationError:
             return render(
                 request,
                 'registration/activate.html',
@@ -36,8 +38,9 @@ def activate(request, activation_key):
                 }
             )
         try:
-            user_profile = rp.user.userprofile
-        except UserProfile.DoesNotExist:
+            #user_profile = rp.user.userprofile
+            user_profile = ActivationView.get_user(username)
+        except django_registration.exceptions.ActivationError:
             return render(
                 request,
                 'registration/activate.html',
@@ -48,7 +51,7 @@ def activate(request, activation_key):
             )
         form = UserProfileForm(instance=user_profile)
         form.fields['user'] = forms.ModelChoiceField(
-            queryset=User.objects.filter(pk=rp.user.pk), empty_label=None
+            queryset=User.objects.filter(pk=user_profile.pk), empty_label=None
         )
         form.fields['institution'] = forms.ModelChoiceField(
             queryset=Institution.objects.all(), empty_label=None
@@ -84,11 +87,13 @@ def activate(request, activation_key):
         # Normalize before trying anything with it.
         activation_key = activation_key.lower()
         try:
-            rp = RegistrationProfile.objects.get(activation_key=activation_key)
-            account = RegistrationProfile.objects.activate_user(activation_key)
+            #rp = RegistrationProfile.objects.get(activation_key=activation_key)
+            username = ActivationView.validate_key(activation_key)
+            #account = RegistrationProfile.objects.activate_user(activation_key)
+            up.is_active = True
             up.is_social_active = True
             up.save()
-            logger.info('Activating user %s' % rp.user.username)
+            logger.info('Activating user %s' % username)
         except Exception as e:
             logger.info('An error occured: %s' % e)
             pass
