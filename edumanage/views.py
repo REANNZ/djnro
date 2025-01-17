@@ -20,7 +20,8 @@ from django.template import RequestContext
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.views import logout as logout_view
+from django.contrib.auth.views import LoginView, LogoutView
+
 from django import forms
 from django.contrib.contenttypes.forms import generic_inlineformset_factory
 from django.core.mail.message import EmailMessage
@@ -1649,7 +1650,7 @@ def user_logout(request, **kwargs):
     elif shib_logout_url is not None and \
             request.session.get('SHIB_LOGOUT') is True:
         kwargs['next_page'] = shib_logout_url
-    return logout_view(request, **kwargs)
+    return LogoutView.as_view(next_page=kwargs['next_page'])(request, **kwargs)
 
 
 @never_cache
