@@ -1813,7 +1813,12 @@ def selectinst(request):
     else:
         return HttpResponseBadRequest('<h1>Only POST requests are allowed at this URL.</h1>')
 
+import logging
+logger = logging.getLogger(__name__)
+
 def user_activation_notify(request, userprofile):
+
+    logger.info(f'Requesting information for request {request} userprofile {userprofile}')
     current_site = get_current_site(request)
     subject = render_to_string(
         'registration/activation_email_subject.txt',
@@ -2801,6 +2806,7 @@ def rad(x):
 
 
 def send_new_mail(subject, message, from_email, recipient_list, bcc_list):
+    logger.info(f'Sending email to {subject} from {from_email}')
     return EmailMessage(
         subject,
         message,
