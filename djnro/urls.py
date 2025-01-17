@@ -23,7 +23,7 @@ urlpatterns = [
     #url(r'^login/?', edumanage.views.user_login, name="login"),
     path("login/", edumanage.views.user_login, name="login"),
     #url(r'^altlogin/?', django.contrib.auth.views.login, {'template_name': 'overview/login.html'}, name="altlogin"),
-    path("altlogin/", django.contrib.auth.views.login, {'template_name': 'overview/login.html'}, name="altlogin"),
+    path("altlogin/", django.contrib.auth.views.LoginView.as_view(template_name='overview/login.html'), name="altlogin"),
     #url(r'^logout/?', edumanage.views.user_logout, {'next_page': '/'}, name="logout"),
     path("logout/", edumanage.views.user_logout, {'next_page': '/'}, name="logout"),
     #url(r'^registration/accounts/activate/(?P<activation_key>\w+)/$', accounts.views.activate, name='activate_account'),
