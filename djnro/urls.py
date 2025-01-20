@@ -1,6 +1,5 @@
 from django.conf.urls import include
 from django.urls import path, re_path
-from django.views.generic.base import TemplateView
 # Uncomment the next two lines to enable the django admin interface:
 from django.contrib import admin
 admin.autodiscover()
@@ -36,7 +35,7 @@ urlpatterns = [
     #),
     path(
         "registration/activate/complete/",
-        TemplateView.as_view(template_name='registration/activation_complete.html'),
+        ActivationView.as_view(template_name='registration/activation_complete.html'),
         name='registration_activation_complete'
     ),
     #url(r'^tinymce/', include('tinymce.urls')),
