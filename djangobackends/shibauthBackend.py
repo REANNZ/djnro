@@ -7,7 +7,7 @@ from django.conf import settings
 
 import logging
 
-logger = logging.getLogger('django')
+logger = logging.getLogger('debugging')
 
 class shibauthBackend:
     def authenticate(self, **kwargs):

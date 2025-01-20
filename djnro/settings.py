@@ -205,12 +205,24 @@ LOGGING = {
 	    'callback': skip_disallowed_host_suspicious_operations,
 	},
     },
+    'formatters': {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+    }
     'handlers': {
         'console': {
             'level': 'INFO',
             'filters': ['require_debug_true'],
             'class': 'logging.StreamHandler',
         },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': '/var/log/djnro/log.debug',
+            'formatter': 'verbose'
+        }
         'null': {
             'class': 'logging.NullHandler',
         },
@@ -237,6 +249,10 @@ LOGGING = {
         'py.warnings': {
             'handlers': ['console'],
         },
+        'debugging': {
+            'handlers':  ['file'],
+            'level': 'INFO',
+        }
     }
 }
 
