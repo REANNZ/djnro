@@ -12,8 +12,6 @@ from django_registration.backends.activation.views import ActivationView
 urlpatterns = [
     #url(r'^accounts/', include(social_django.urls, namespace='social')),
     path("accounts/", include(social_django.urls, namespace='social')),
-    # This is a new requirement for django-registration since django-registration:3.0
-    path('jamie/', include('django.contrib.auth.urls')),
     #url(r'^setlang/?$', edumanage.views.set_language, name='set_language'),
     path("setlang/", edumanage.views.set_language, name='set_language'),
     #url(r'^admin/', include(admin.site.urls)),
@@ -26,6 +24,9 @@ urlpatterns = [
     path("altlogin/", django.contrib.auth.views.LoginView.as_view(template_name='overview/login.html'), name="altlogin"),
     #url(r'^logout/?', edumanage.views.user_logout, {'next_page': '/'}, name="logout"),
     path("logout/", edumanage.views.user_logout, {'next_page': '/'}, name="logout"),
+    # This is a new requirement for django-registration since django-registration:3.0
+    path('registration/', include('django_registration.backends.activation.urls')),
+    path('registration/', include('django.contrib.auth.urls')),
     #url(r'^registration/accounts/activate/(?P<activation_key>\w+)/$', accounts.views.activate, name='activate_account'),
     re_path(r'^registration/accounts/activate/(?P<activation_key>\w+)/$', ActivationView.as_view(), name='activate_account'),
     #url(
