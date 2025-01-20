@@ -1528,6 +1528,10 @@ def manage_login(request, backend):
     return redirect(reverse('social:begin', args=[backend]) + qs)
 
 
+import logging
+
+logger = logging.getLogger('debugging')
+
 @never_cache
 def user_login(request):
     try:
@@ -1572,6 +1576,7 @@ def user_login(request):
         except User.DoesNotExist:
             pass
 
+        logger.warning(f"Calling authenticate on username {username} firstname {firstname} lastname {lastname} mail {mail}")
         user = authenticate(username=username, firstname=firstname, lastname=lastname, mail=mail, authsource='shibboleth')
         request.session['SHIB_LOGOUT'] = hasattr(settings, 'SHIB_LOGOUT_URL')
         if user is not None:
@@ -1622,6 +1627,7 @@ def user_login(request):
                 "Something went wrong during user authentication."
                 " Contact your administrator %s" % user
             )
+            logger.warning(f"An error occurred during ")
             return render(
                 request,
                 'status.html',
