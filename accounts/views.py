@@ -26,9 +26,10 @@ def activate(request, activation_key):
     if request.method == "GET":
         # Normalize before trying anything with it.
         activation_key = activation_key.lower()
+        activation_view = ActivationView()
         try:
             #rp = RegistrationProfile.objects.get(activation_key=activation_key)
-            username = ActivationView.validate_key(activation_key=activation_key)
+            username = activation_view.validate_key(activation_key=activation_key)
         except ActivationError:
             return render(
                 request,
@@ -40,7 +41,7 @@ def activate(request, activation_key):
             )
         try:
             #user_profile = rp.user.userprofile
-            user_profile = ActivationView.get_user(username)
+            user_profile = activation_view.get_user(username)
         except ActivationError:
             return render(
                 request,
@@ -68,6 +69,7 @@ def activate(request, activation_key):
         )
     if request.method == "POST":
         request_data = request.POST.copy()
+        activation_view = ActivationView()
         try:
             user = User.objects.get(pk=request_data['user'])
             up = user.userprofile
@@ -89,7 +91,7 @@ def activate(request, activation_key):
         activation_key = activation_key.lower()
         try:
             #rp = RegistrationProfile.objects.get(activation_key=activation_key)
-            username = ActivationView.validate_key(activation_key=activation_key)
+            username = activation_view.validate_key(activation_key=activation_key)
             #account = RegistrationProfile.objects.activate_user(activation_key)
             up.is_active = True
             up.is_social_active = True

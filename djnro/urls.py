@@ -8,6 +8,7 @@ import social_django.urls
 import edumanage
 import django
 import accounts, accounts.views
+from django_registration.backends.activation.views import ActivationView
 
 urlpatterns = [
     #url(r'^accounts/', include(social_django.urls, namespace='social')),
@@ -27,7 +28,7 @@ urlpatterns = [
     #url(r'^logout/?', edumanage.views.user_logout, {'next_page': '/'}, name="logout"),
     path("logout/", edumanage.views.user_logout, {'next_page': '/'}, name="logout"),
     #url(r'^registration/accounts/activate/(?P<activation_key>\w+)/$', accounts.views.activate, name='activate_account'),
-    re_path(r'^registration/accounts/activate/(?P<activation_key>\w+)/$', accounts.views.activate, name='activate_account'),
+    re_path(r'^registration/accounts/activate/(?P<activation_key>\w+)/$', ActivationView.as_view(), name='activate_account'),
     #url(
     #    r'^registration/activate/complete/$',
     #    TemplateView.as_view(template_name='registration/activation_complete.html'),
