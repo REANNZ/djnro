@@ -1515,12 +1515,15 @@ def get_all_services(request):
     locs = localizePointNames(ourPoints(), lang)
     return HttpResponse(json.dumps(locs), content_type='application/json')
 
+import logging
+logger = logging.getLogger('debugging')
 
 @never_cache
 def manage_login(request, backend):
     logout(request)
     qs = request.GET.urlencode()
     qs = '?%s' % qs if qs else ''
+    logger.warning(f'Calling manage_login with qs {qs} and backend {backend}')
     if backend == 'shibboleth':
         return redirect(reverse('login') + qs)
     if backend == 'locallogin':
@@ -1542,6 +1545,8 @@ def user_login(request):
         lastname = lookupShibAttr(settings.SHIB_LASTNAME, request.META)
         mail = lookupShibAttr(settings.SHIB_MAIL, request.META)
         entitlement = lookupShibAttr(settings.SHIB_ENTITLEMENT, request.META)
+
+        logger.warning(f"Calling authenticate on username {username} firstname {firstname} lastname {lastname} mail {mail}")
 
         if not username:
             errors.append(
@@ -1576,7 +1581,6 @@ def user_login(request):
         except User.DoesNotExist:
             pass
 
-        logger.warning(f"Calling authenticate on username {username} firstname {firstname} lastname {lastname} mail {mail}")
         user = authenticate(username=username, firstname=firstname, lastname=lastname, mail=mail, authsource='shibboleth')
         request.session['SHIB_LOGOUT'] = hasattr(settings, 'SHIB_LOGOUT_URL')
         if user is not None:
