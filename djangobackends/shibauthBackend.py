@@ -11,6 +11,7 @@ logger = logging.getLogger('debugging')
 
 class shibauthBackend:
     def authenticate(self, **kwargs):
+        logger.warning(f'Calling shibauthBackend with kwargs {kwargs}')
         username = kwargs.get('username')
         firstname = kwargs.get('firstname')
         lastname = kwargs.get('lastname')
