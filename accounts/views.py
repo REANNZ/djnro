@@ -11,6 +11,7 @@ from django.views.decorators.cache import never_cache
 from django import forms
 #from registration.models import RegistrationProfile
 from django_registration.backends.activation.views import ActivationView
+from django_registration.exceptions import ActivationError
 from accounts.models import UserProfile
 
 from edumanage.forms import UserProfileForm
@@ -28,7 +29,7 @@ def activate(request, activation_key):
         try:
             #rp = RegistrationProfile.objects.get(activation_key=activation_key)
             username = ActivationView.validate_key(activation_key)
-        except django_registration.exceptions.ActivationError:
+        except ActivationError:
             return render(
                 request,
                 'registration/activate.html',
@@ -40,7 +41,7 @@ def activate(request, activation_key):
         try:
             #user_profile = rp.user.userprofile
             user_profile = ActivationView.get_user(username)
-        except django_registration.exceptions.ActivationError:
+        except ActivationError:
             return render(
                 request,
                 'registration/activate.html',
