@@ -28,7 +28,7 @@ def activate(request, activation_key):
         activation_key = activation_key.lower()
         try:
             #rp = RegistrationProfile.objects.get(activation_key=activation_key)
-            username = ActivationView.validate_key(activation_key)
+            username = ActivationView.validate_key(activation_key=activation_key)
         except ActivationError:
             return render(
                 request,
@@ -89,7 +89,7 @@ def activate(request, activation_key):
         activation_key = activation_key.lower()
         try:
             #rp = RegistrationProfile.objects.get(activation_key=activation_key)
-            username = ActivationView.validate_key(activation_key)
+            username = ActivationView.validate_key(activation_key=activation_key)
             #account = RegistrationProfile.objects.activate_user(activation_key)
             up.is_active = True
             up.is_social_active = True
