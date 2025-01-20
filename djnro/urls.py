@@ -25,8 +25,7 @@ urlpatterns = [
     #url(r'^logout/?', edumanage.views.user_logout, {'next_page': '/'}, name="logout"),
     path("logout/", edumanage.views.user_logout, {'next_page': '/'}, name="logout"),
     # This is a new requirement for django-registration since django-registration:3.0
-    path('registration/', include('django_registration.backends.activation.urls')),
-    path('registration/', include('django.contrib.auth.urls')),
+
     #url(r'^registration/accounts/activate/(?P<activation_key>\w+)/$', accounts.views.activate, name='activate_account'),
     re_path(r'^registration/accounts/activate/(?P<activation_key>\w+)/$', accounts.views.activate, name='activate_account'),
     #url(
