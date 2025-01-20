@@ -28,7 +28,7 @@ urlpatterns = [
     path('registration/', include('django_registration.backends.activation.urls')),
     path('registration/', include('django.contrib.auth.urls')),
     #url(r'^registration/accounts/activate/(?P<activation_key>\w+)/$', accounts.views.activate, name='activate_account'),
-    re_path(r'^registration/accounts/activate/(?P<activation_key>\w+)/$', ActivationView.as_view(), name='activate_account'),
+    re_path(r'^registration/accounts/activate/(?P<activation_key>\w+)/$', accounts.views.activate, name='activate_account'),
     #url(
     #    r'^registration/activate/complete/$',
     #    TemplateView.as_view(template_name='registration/activation_complete.html'),
