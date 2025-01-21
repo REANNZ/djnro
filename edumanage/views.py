@@ -1640,9 +1640,8 @@ def user_login(request):
                 'status.html',
                 context={'error': error}
             )
-    except Exception as e:
-        error = _("Invalid login procedure. Error: %s" % e)
-        logging.error(traceback.format_exc())
+    except Exception:
+        error = _(traceback.format_exc())
         return render(
             request,
             'status.html',
