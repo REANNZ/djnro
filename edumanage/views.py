@@ -1581,7 +1581,7 @@ def user_login(request):
         except User.DoesNotExist:
             pass
 
-        logger.warning(f'Authenticate method: module {authenticate.__module__} qualified name {authenticate.__qualname__} class {authenticate.__self__.__class__.__name__}')
+        logger.warning(f'Authenticate method: module {authenticate.__module__} qualified name {authenticate.__qualname__} class {authenticate} file {authenticate.__code__.co_filename}')
 
         user = authenticate(username=username, firstname=firstname, lastname=lastname, mail=mail, authsource='shibboleth')
         request.session['SHIB_LOGOUT'] = hasattr(settings, 'SHIB_LOGOUT_URL')
