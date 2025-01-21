@@ -1532,6 +1532,7 @@ def manage_login(request, backend):
 
 
 import logging
+import traceback
 
 logger = logging.getLogger('debugging')
 
@@ -1641,6 +1642,7 @@ def user_login(request):
             )
     except Exception as e:
         error = _("Invalid login procedure. Error: %s" % e)
+        logging.error(traceback.format_exc())
         return render(
             request,
             'status.html',
