@@ -9,8 +9,8 @@ import logging
 
 logger = logging.getLogger('debugging')
 
-class shibauthBackend:
-    def authenticate(self, **kwargs):
+class EmailBackend(ModelBackend):
+    def authenticate(self, request, username=None, password=None, **kwargs):
         logger.warning(f'Calling shibauthBackend with kwargs {kwargs}')
         username = kwargs.get('username')
         firstname = kwargs.get('firstname')
