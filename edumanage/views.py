@@ -1632,7 +1632,7 @@ def user_login(request):
         else:
             error = _(
                 "Something went wrong during user authentication."
-                " Contact your administrator %s" % user
+                " Contact your administrator."
             )
             logger.warning(f"An error occurred during ")
             return render(
