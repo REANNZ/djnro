@@ -17,6 +17,8 @@ class shibauthBackend:
         lastname = kwargs.get('lastname')
         mail = kwargs.get('mail')
         authsource = kwargs.get('authsource')
+        logger.warning(f"Calling authenticate on username {username} password {password} kwargs {kwargs}")
+        logger.warning(f"Passed request: {request}")
         if authsource != 'shibboleth':
             logger.warning(f"Invalid auth source {authsource}")
             return None
@@ -24,7 +26,7 @@ class shibauthBackend:
         try:
             user = self._auth_user(username, firstname, lastname, mail)
         except Exception as e:
-            logger.warning("Exception occurred when authenticating user: {e}")
+            logger.warning(f"Exception occurred when authenticating user: {e}")
             return None
 
         if not user:

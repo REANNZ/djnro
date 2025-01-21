@@ -1547,8 +1547,6 @@ def user_login(request):
         mail = lookupShibAttr(settings.SHIB_MAIL, request.META)
         entitlement = lookupShibAttr(settings.SHIB_ENTITLEMENT, request.META)
 
-        logger.warning(f"Calling authenticate on username {username} firstname {firstname} lastname {lastname} mail {mail}")
-
         if not username:
             errors.append(
                 _("Your idP should release the eduPersonPrincipalName attribute towards this service<br>")
@@ -1581,8 +1579,6 @@ def user_login(request):
             user.save()
         except User.DoesNotExist:
             pass
-
-        logger.warning(f'Authenticate method: module {authenticate.__module__} qualified name {authenticate.__qualname__} class {authenticate} file {authenticate.__code__.co_filename}')
 
         user = authenticate(request=request, username=username, firstname=firstname, lastname=lastname, mail=mail, authsource='shibboleth')
         request.session['SHIB_LOGOUT'] = hasattr(settings, 'SHIB_LOGOUT_URL')
