@@ -23,12 +23,17 @@ from utils.edb_versioning import (
 # as that would fail as a circular dependency
 import edumanage.views
 
+import logging
+import traceback
+logger = logging.getLogger('debugging')
+
 def social_active_required(function):
     @wraps(function, assigned=available_attrs(function))
     def wrap(request, *args, **kw):
         user = request.user
         try:
             profile = request.user.userprofile
+            logger.warning(f'Profile: {profile}')
             if profile.is_social_active is True:
                 return function(request, *args, **kw)
             else:
