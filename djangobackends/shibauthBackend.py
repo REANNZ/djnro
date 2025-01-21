@@ -4,13 +4,12 @@
 from django.contrib.auth.models import UserManager, Permission, Group
 from accounts.models import User
 from django.conf import settings
-from django.contrib.auth.backends import BaseBackend
 
 import logging
 
 logger = logging.getLogger('debugging')
 
-class EmailBackend(BaseBackend):
+class EmailBackend:
     def authenticate(self, request, username=None, password=None, **kwargs):
         logger.warning(f'Calling shibauthBackend with kwargs {kwargs}')
         username = kwargs.get('username')
