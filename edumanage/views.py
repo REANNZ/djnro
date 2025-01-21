@@ -1593,6 +1593,8 @@ def user_login(request):
                     context={'form': form}
                 )
 
+            logger.warning(f"Checking user {user}")
+            logger.warning(f"user_permissions {user.user_permissions} is_staff {user.is_staff} is_active {user.is_active} is_superuser {user.is_superuser} is_authenticated {user.is_authenticated}")
             if user.is_active:
                 login(request, user)
                 return HttpResponseRedirect(
