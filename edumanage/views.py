@@ -1515,26 +1515,16 @@ def get_all_services(request):
     locs = localizePointNames(ourPoints(), lang)
     return HttpResponse(json.dumps(locs), content_type='application/json')
 
-import logging
-logger = logging.getLogger('debugging')
-
 @never_cache
 def manage_login(request, backend):
     logout(request)
     qs = request.GET.urlencode()
     qs = '?%s' % qs if qs else ''
-    logger.warning(f'Calling manage_login with qs {qs} and backend {backend}')
     if backend == 'shibboleth':
         return redirect(reverse('login') + qs)
     if backend == 'locallogin':
         return redirect(reverse('altlogin') + qs)
     return redirect(reverse('social:begin', args=[backend]) + qs)
-
-
-import logging
-import traceback
-
-logger = logging.getLogger('debugging')
 
 @never_cache
 def user_login(request):
@@ -1630,7 +1620,6 @@ def user_login(request):
                 "Something went wrong during user authentication."
                 " Contact your administrator."
             )
-            logger.warning(f"An error occurred during ")
             return render(
                 request,
                 'status.html',
@@ -1759,6 +1748,9 @@ def connect(request):
         }
     )
 
+import logging
+import traceback
+logger = logging.getLogger('debugging')
 
 @never_cache
 def selectinst(request):
@@ -1776,7 +1768,9 @@ def selectinst(request):
         except UserProfile.DoesNotExist:
             pass
 
+        logger.warning(f'Checking user profile form with request data {request_data}')
         form = UserProfileForm(request_data)
+        logger.warning(form)
         if form.is_valid():
             mailField = form.cleaned_data.pop('email')
             userprofile = form.save()
