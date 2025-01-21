@@ -131,7 +131,7 @@ AUTHENTICATION_BACKENDS = (
     # 'social.backends.google.GoogleOpenIdConnect',
     # 'social.backends.facebook.FacebookOAuth2',
 
-    'social.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
     # 'social.backends.google.GoogleOAuth',
     # 'social.backends.linkedin.LinkedinOAuth2',
     # 'social.backends.yahoo.YahooOpenId',
