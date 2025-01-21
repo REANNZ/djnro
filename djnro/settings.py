@@ -125,7 +125,7 @@ MIDDLEWARE = (
 )
 
 AUTHENTICATION_BACKENDS = (
-    # 'djangobackends.shibauthBackend.shibauthBackend',
+    'djangobackends.shibauthBackend.shibauthBackend',
     # 'django_auth_ldap.backend.LDAPBackend',
     # 'social.backends.twitter.TwitterOAuth',
     # 'social.backends.google.GoogleOpenIdConnect',
