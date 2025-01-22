@@ -1526,12 +1526,12 @@ def manage_login(request, backend):
     qs = request.GET.urlencode()
     qs = '?%s' % qs if qs else ''
     if backend == 'shibboleth':
-        logger.warning(f"Redirecting user to {reverse('login') + qs}")
+        logger.warning(f"shibboleth: Redirecting user to {reverse('login') + qs}")
         return redirect(reverse('login') + qs)
     if backend == 'locallogin':
-        logger.warning(f"Redirecting user to {reverse('altlogin') + qs}")
+        logger.warning(f"locallogin: Redirecting user to {reverse('altlogin') + qs}")
         return redirect(reverse('altlogin') + qs)
-    logger.warning(f"Redirecting user to {reverse('social:begin', args=[backend]) + qs}")
+    logger.warning(f"Other: Redirecting user to {reverse('social:begin', args=[backend]) + qs}")
     return redirect(reverse('social:begin', args=[backend]) + qs)
 
 @never_cache
