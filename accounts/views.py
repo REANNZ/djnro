@@ -17,7 +17,7 @@ from accounts.models import UserProfile
 from edumanage.forms import UserProfileForm
 from edumanage.models import Institution
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('debugging')
 
 
 @never_cache
@@ -92,7 +92,9 @@ def activate(request, activation_key):
         try:
             #rp = RegistrationProfile.objects.get(activation_key=activation_key)
             username = activation_view.validate_key(activation_key=activation_key)
+            logger.warning(f'Activating username {username} with activation key {activation_key}')
             account = activation_view.get_user(username)
+            logger.warning(f'Activating account {account}')
             up.is_active = True
             up.is_social_active = True
             up.save()

@@ -1515,15 +1515,23 @@ def get_all_services(request):
     locs = localizePointNames(ourPoints(), lang)
     return HttpResponse(json.dumps(locs), content_type='application/json')
 
+
+import logging
+import traceback
+logger = logging.getLogger('debugging')
+
 @never_cache
 def manage_login(request, backend):
     logout(request)
     qs = request.GET.urlencode()
     qs = '?%s' % qs if qs else ''
     if backend == 'shibboleth':
+        logger.warning(f'Redirecting user to {reverse('login') + qs}')
         return redirect(reverse('login') + qs)
     if backend == 'locallogin':
+        logger.warning(f'Redirecting user to {redirect(reverse('altlogin') + qs}')
         return redirect(reverse('altlogin') + qs)
+    logger.warning(f'Redirecting user to {reverse('social:begin', args=[backend]) + qs}')
     return redirect(reverse('social:begin', args=[backend]) + qs)
 
 @never_cache
@@ -1593,8 +1601,6 @@ def user_login(request):
                     context={'form': form}
                 )
 
-            logger.warning(f"Checking user {user}")
-            logger.warning(f"user_permissions {user.user_permissions} is_staff {user.is_staff} is_active {user.is_active} is_superuser {user.is_superuser} is_authenticated {user.is_authenticated}")
             if user.is_active:
                 login(request, user)
                 return HttpResponseRedirect(
@@ -1750,9 +1756,6 @@ def connect(request):
         }
     )
 
-import logging
-import traceback
-logger = logging.getLogger('debugging')
 
 @never_cache
 def selectinst(request):
@@ -1770,9 +1773,7 @@ def selectinst(request):
         except UserProfile.DoesNotExist:
             pass
 
-        logger.warning(f'Checking user profile form with request data {request_data}')
         form = UserProfileForm(request_data)
-        logger.warning(form)
         if form.is_valid():
             mailField = form.cleaned_data.pop('email')
             userprofile = form.save()
