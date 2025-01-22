@@ -27,7 +27,7 @@ urlpatterns = [
     # This is a new requirement for django-registration since django-registration:3.0
 
     #url(r'^registration/accounts/activate/(?P<activation_key>\w+)/$', accounts.views.activate, name='activate_account'),
-    re_path(r'^registration/accounts/activate/(?P<activation_key>\w+)/$', accounts.views.activate, name='activate_account'),
+    re_path(r'^registration/accounts/activate/(?P<activation_key>.+)/$', accounts.views.activate, name='activate_account'),
     #url(
     #    r'^registration/activate/complete/$',
     #    TemplateView.as_view(template_name='registration/activation_complete.html'),
