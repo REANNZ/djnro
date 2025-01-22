@@ -1832,7 +1832,7 @@ def user_activation_notify(request, userprofile):
     message = render_to_string(
         'registration/activation_email.txt',
         {
-            'activation_key': RegistrationView.get_activation_key(user=userprofile),
+            'activation_key': registration_view.get_activation_key(user=userprofile),
             'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
             'site': current_site,
             'user': userprofile.user,
