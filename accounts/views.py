@@ -92,7 +92,7 @@ def activate(request, activation_key):
         try:
             #rp = RegistrationProfile.objects.get(activation_key=activation_key)
             username = activation_view.validate_key(activation_key=activation_key)
-            #account = RegistrationProfile.objects.activate_user(activation_key)
+            account = activation_view.get_user(username)
             up.is_active = True
             up.is_social_active = True
             up.save()
