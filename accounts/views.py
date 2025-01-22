@@ -25,12 +25,14 @@ def activate(request, activation_key):
     account = None
     if request.method == "GET":
         # Normalize before trying anything with it.
-        activation_key = activation_key.lower()
         activation_view = ActivationView()
+        logger.warning(f"GET: activation_key {activation_key} activation_view {activation_view}")
         try:
             #rp = RegistrationProfile.objects.get(activation_key=activation_key)
             username = activation_view.validate_key(activation_key=activation_key)
+            logger.warning(f"GET: username {username} has validated using key {activation_key}")
         except ActivationError:
+            logger.warning(f"GET: An error has occurred. Redirecting to activate page")
             return render(
                 request,
                 'registration/activate.html',
@@ -42,7 +44,9 @@ def activate(request, activation_key):
         try:
             #user_profile = rp.user.userprofile
             user_profile = activation_view.get_user(username)
+            logger.warning(f"GET: username = {username} user_profile = {user_profile}")
         except ActivationError:
+            logger.warning(f"GET: ActivationError")
             return render(
                 request,
                 'registration/activate.html',
@@ -58,6 +62,7 @@ def activate(request, activation_key):
         form.fields['institution'] = forms.ModelChoiceField(
             queryset=Institution.objects.all(), empty_label=None
         )
+        logger.warning(f"GET: Loading activate_edit.html")
         return render(
             request,
             'registration/activate_edit.html',
@@ -76,9 +81,11 @@ def activate(request, activation_key):
             up.institution = Institution.objects.get(
                 pk=request_data['institution']
             )
+            logger.warning(f"POST: Saved user {user} up {up} institution {up.institution}")
             up.save()
 
-        except:
+        except Exception as e:
+            logger.warning(f"POST: Exception occurred: {e}")
             return render(
                 request,
                 'registration/activate_edit.html',
@@ -88,19 +95,19 @@ def activate(request, activation_key):
                 }
             )
         # Normalize before trying anything with it.
-        activation_key = activation_key.lower()
+        logger.warning(f"POST: Activation key: {activation_key}")
         try:
             #rp = RegistrationProfile.objects.get(activation_key=activation_key)
             username = activation_view.validate_key(activation_key=activation_key)
-            logger.warning(f'Activating username {username} with activation key {activation_key}')
+            logger.warning(f'POST: Activating username {username} with activation key {activation_key}')
             account = activation_view.get_user(username)
-            logger.warning(f'Activating account {account}')
+            logger.warning(f'POST: Activating account {account}')
             up.is_active = True
             up.is_social_active = True
             up.save()
-            logger.info('Activating user %s' % username)
+            logger.info('POST: Activating user %s' % username)
         except Exception as e:
-            logger.info('An error occured: %s' % e)
+            logger.info('POST: An error occured: %s' % e)
             pass
 
         if account:
@@ -118,6 +125,9 @@ def activate(request, activation_key):
                 settings.SERVER_EMAIL,
                 account.email.split(';')
             )
+        else:
+            logger.warning(f"POST: Account {account} is falsey, refusing to send email.")
+
         return render(
             request,
             'registration/activate.html',
