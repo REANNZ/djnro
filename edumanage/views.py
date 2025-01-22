@@ -1529,7 +1529,7 @@ def manage_login(request, backend):
         logger.warning(f'Redirecting user to {reverse('login') + qs}')
         return redirect(reverse('login') + qs)
     if backend == 'locallogin':
-        logger.warning(f'Redirecting user to {redirect(reverse('altlogin') + qs}')
+        logger.warning(f"Redirecting user to {reverse('altlogin') + qs}")
         return redirect(reverse('altlogin') + qs)
     logger.warning(f'Redirecting user to {reverse('social:begin', args=[backend]) + qs}')
     return redirect(reverse('social:begin', args=[backend]) + qs)
