@@ -1838,7 +1838,7 @@ def user_activation_notify(request, userprofile):
             'user': userprofile.user,
             'institution': userprofile.institution
         })
-    logger.warning(f"Sending activation email for {userprofile.user} to {NOTIFY_ADMIN_MAILS}")
+    logger.warning(f"Sending activation email for {userprofile.user} to {settings.NOTIFY_ADMIN_MAILS}")
     send_new_mail(
         settings.EMAIL_SUBJECT_PREFIX + subject,
         message, settings.SERVER_EMAIL,
