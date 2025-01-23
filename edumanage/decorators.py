@@ -36,8 +36,10 @@ def social_active_required(function):
             profile = request.user.userprofile
             logger.warning(f'Profile: {profile}')
             if profile.is_social_active is True:
+                logger.warning(f'User {profile} is marked as social_active')
                 return function(request, *args, **kw)
             else:
+                logger.warning(f'User {profile} is marked as not social_active')
                 status = _(
                     "User account <strong>%(username)s</strong> is pending"
                     " activation. Administrators have been notified and will"
@@ -56,12 +58,14 @@ def social_active_required(function):
                     },
                 )
         except UserProfile.DoesNotExist:
+            logger.warning(f'User profile for user {user} does not exist')
             form = UserProfileForm()
             form.fields['user'] = forms.ModelChoiceField(
                 queryset=User.objects.filter(pk=user.pk), empty_label=None
             )
             nomail = False
             if not user.email:
+                logger.warning(f'No email found for user {user}')
                 nomail = True
                 form.fields['email'] = forms.CharField()
             else:
