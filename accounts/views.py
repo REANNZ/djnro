@@ -102,7 +102,7 @@ def activate(request, activation_key):
             logger.warning(f'POST: Activating username {username} with activation key {activation_key}')
             account = activation_view.get_user(username)
             logger.warning(f'POST: Activating account {account}')
-            user.is_active = True
+            up.user.is_active = True
             up.is_social_active = True
             up.save()
             logger.info(f'POST: User {username} is considered active. up {up} is_active {up.is_active} is_social_active {up.is_social_active}')
