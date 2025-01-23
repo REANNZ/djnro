@@ -5,34 +5,24 @@ from django.contrib.auth.models import UserManager, Permission, Group
 from accounts.models import User
 from django.conf import settings
 
-import logging
-
-logger = logging.getLogger('debugging')
 
 class shibauthBackend:
     def authenticate(self, request, username=None, password=None, **kwargs):
-        logger.warning(f'Calling shibauthBackend with kwargs {kwargs}')
         firstname = kwargs.get('firstname')
         lastname = kwargs.get('lastname')
         mail = kwargs.get('mail')
         authsource = kwargs.get('authsource')
-        logger.warning(f"Calling authenticate on username {username} password {password} kwargs {kwargs}")
-        logger.warning(f"Passed request: {request}")
         if authsource != 'shibboleth':
-            logger.warning(f"Invalid auth source {authsource}")
             return None
 
         try:
             user = self._auth_user(username, firstname, lastname, mail)
         except Exception as e:
-            logger.warning(f"Exception occurred when authenticating user: {e}")
             return None
 
         if not user:
-            logger.warning(f"Could not authenticate username {username} firstname {firstname} lastname {lastname} mail {mail}")
             return None
 
-        logger.warning(f"Authenticated username {username} firstname {firstname} lastname {lastname} mail {mail}")
         return user
 
     def _auth_user(self, username, firstname, lastname, mail):
@@ -40,7 +30,6 @@ class shibauthBackend:
             user = User.objects.get(username__exact=username)
         # The user did not exist. Create one with no privileges
         except:
-            logger.warning(f"Could not find user {username} with mail {mail}")
             user = User.objects.create_user(username, mail, None)
             user.first_name = firstname
             user.last_name = lastname
@@ -49,7 +38,6 @@ class shibauthBackend:
             user.is_active = False
             user.save()
 
-        logger.warning(f"Returning user {user}")
         return user
 
     def get_user(self, user_id):
