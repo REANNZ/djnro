@@ -43,10 +43,11 @@ def activate(request, activation_key):
             )
         try:
             #user_profile = rp.user.userprofile
+            logger.warning(f"GET: username = {username}")
             user_profile = activation_view.get_user(username)
-            logger.warning(f"GET: username = {username} user_profile = {user_profile}")
+            logger.warning(f"GET: user_profile = {user_profile}")
         except ActivationError:
-            logger.warning(f"GET: ActivationError")
+            logger.warning(f"GET: ActivationError: No matching inactive account exists")
             return render(
                 request,
                 'registration/activate.html',
