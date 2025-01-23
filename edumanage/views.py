@@ -1584,7 +1584,7 @@ def user_login(request):
             try:
                 profile = user.userprofile
                 profile.institution
-                logger.warning(f"Activation: profile {profile} institution {institution}")
+                logger.warning(f"Activation: profile {profile} institution {profile.institution}")
             except UserProfile.DoesNotExist:
                 logger.warning(f"User {user} cannot be found.")
                 form = UserProfileForm()
