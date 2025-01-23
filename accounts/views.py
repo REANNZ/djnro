@@ -105,7 +105,6 @@ def activate(request, activation_key):
             up.user.is_active = True
             up.is_social_active = True
             up.save()
-            logger.info(f'POST: User {username} is considered active. up {up} is_active {up.is_active} is_social_active {up.is_social_active}')
         except Exception as e:
             logger.info('POST: An error occured: %s' % e)
             pass
