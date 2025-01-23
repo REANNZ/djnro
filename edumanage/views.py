@@ -149,6 +149,7 @@ def manage_login_front(request):
             context={}
         )
     if user.is_authenticated and user.is_active and profile.is_social_active:
+        logger.warning(f"Redirecting user {user} to url {reverse('manage')}")
         return redirect(reverse('manage'))
     else:
         return render(
@@ -162,12 +163,15 @@ def manage_login_front(request):
 @social_active_required
 @never_cache
 def manage(request):
+    logger.waring(f"Calling manage on login request for user {request.user}")
     services_list = []
     servers_list = []
     user = request.user
     try:
         profile = user.userprofile
+        logger.waring(f"Profile {profile}")
         inst = profile.institution
+        logger.warning(f"Institution {inst}")
     except UserProfile.DoesNotExist:
         return render_with_base_ctx(
             request,
