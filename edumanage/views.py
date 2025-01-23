@@ -137,12 +137,15 @@ def manage_login_front(request):
     user = request.user
     try:
         profile = user.userprofile
+        logger.warning(f"Found profile {profile}")
     except UserProfile.DoesNotExist:
+        logger.warning(f"Profile for user {user} does not exist")
         return render_with_base_ctx(
             request,
             'edumanage/welcome_manage.html'
         )
     except AttributeError:
+        logger.warning(f"AttributeError")
         return render(
             request,
             'edumanage/welcome_manage.html',
@@ -152,6 +155,7 @@ def manage_login_front(request):
         logger.warning(f"Redirecting user {user} to url {reverse('manage')}")
         return redirect(reverse('manage'))
     else:
+        logger.warning(f"is_authenticated {user.is_authenticated} is_active {user.is_active} is_social_active {profile.is_social_active}")
         return render(
             request,
             'edumanage/welcome_manage.html',

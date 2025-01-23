@@ -30,6 +30,7 @@ logger = logging.getLogger('debugging')
 def social_active_required(function):
     @wraps(function, assigned=available_attrs(function))
     def wrap(request, *args, **kw):
+        logger.warning(f'social_active_required check for user {request.user}')
         user = request.user
         try:
             profile = request.user.userprofile
