@@ -167,13 +167,13 @@ def manage_login_front(request):
 @social_active_required
 @never_cache
 def manage(request):
-    logger.waring(f"Calling manage on login request for user {request.user}")
+    logger.warning(f"Calling manage on login request for user {request.user}")
     services_list = []
     servers_list = []
     user = request.user
     try:
         profile = user.userprofile
-        logger.waring(f"Profile {profile}")
+        logger.warning(f"Profile {profile}")
         inst = profile.institution
         logger.warning(f"Institution {inst}")
     except UserProfile.DoesNotExist:
