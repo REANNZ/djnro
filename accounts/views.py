@@ -44,8 +44,8 @@ def activate(request, activation_key):
         try:
             #user_profile = rp.user.userprofile
             logger.warning(f"GET: username = {username}")
-            user_profile = activation_view.get_user(username)
-            logger.warning(f"GET: user_profile = {user_profile}")
+            user = activation_view.get_user(username)
+            logger.warning(f"GET: user = {user}")
         except ActivationError:
             logger.warning(f"GET: ActivationError: No matching inactive account exists")
             return render(
@@ -56,6 +56,7 @@ def activate(request, activation_key):
                     'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS
                 }
             )
+        user_profile = UserProfile.objects.get(user=user)
         form = UserProfileForm(instance=user_profile)
         form.fields['user'] = forms.ModelChoiceField(
             queryset=User.objects.filter(pk=user_profile.pk), empty_label=None
