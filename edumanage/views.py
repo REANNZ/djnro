@@ -1584,7 +1584,9 @@ def user_login(request):
             try:
                 profile = user.userprofile
                 profile.institution
+                logger.warning(f"Activation: profile {profile} institution {institution}")
             except UserProfile.DoesNotExist:
+                logger.warning(f"User {user} cannot be found.")
                 form = UserProfileForm()
                 form.fields['user'] = forms.ModelChoiceField(
                     queryset=User.objects.filter(pk=user.pk),
@@ -1602,12 +1604,14 @@ def user_login(request):
                 )
 
             if user.is_active:
+                logger.warning(f"User {user} is active. Logging them in now.")
                 login(request, user)
                 return HttpResponseRedirect(
                     request.GET.get(REDIRECT_FIELD_NAME,
                                     default=reverse('manage'))
                 )
             else:
+                logger.warning(f"User {user} is NOT active.")
                 status = _(
                     "User account <strong>%(username)s</strong> is pending"
                     " activation. Administrators have been notified and will"
