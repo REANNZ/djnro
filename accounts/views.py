@@ -9,7 +9,6 @@ from django.utils.translation import ugettext_lazy as _
 from accounts.models import User
 from django.views.decorators.cache import never_cache
 from django import forms
-#from registration.models import RegistrationProfile
 from django_registration.backends.activation.views import ActivationView
 from django_registration.exceptions import ActivationError
 from accounts.models import UserProfile
@@ -17,7 +16,7 @@ from accounts.models import UserProfile
 from edumanage.forms import UserProfileForm
 from edumanage.models import Institution
 
-logger = logging.getLogger('debugging')
+logger = logging.getLogger(__name__)
 
 
 @never_cache
@@ -26,13 +25,9 @@ def activate(request, activation_key):
     if request.method == "GET":
         # Normalize before trying anything with it.
         activation_view = ActivationView()
-        logger.warning(f"GET: activation_key {activation_key} activation_view {activation_view}")
         try:
-            #rp = RegistrationProfile.objects.get(activation_key=activation_key)
             username = activation_view.validate_key(activation_key=activation_key)
-            logger.warning(f"GET: username {username} has validated using key {activation_key}")
         except ActivationError:
-            logger.warning(f"GET: An error has occurred. Redirecting to activate page")
             return render(
                 request,
                 'registration/activate.html',
@@ -42,12 +37,8 @@ def activate(request, activation_key):
                 }
             )
         try:
-            #user_profile = rp.user.userprofile
-            logger.warning(f"GET: username = {username}")
             user_profile = activation_view.get_user(username)
-            logger.warning(f"GET: user_profile = {user_profile}")
         except ActivationError:
-            logger.warning(f"GET: ActivationError: No matching inactive account exists")
             return render(
                 request,
                 'registration/activate.html',
@@ -63,7 +54,6 @@ def activate(request, activation_key):
         form.fields['institution'] = forms.ModelChoiceField(
             queryset=Institution.objects.all(), empty_label=None
         )
-        logger.warning(f"GET: Loading activate_edit.html")
         return render(
             request,
             'registration/activate_edit.html',
@@ -82,11 +72,9 @@ def activate(request, activation_key):
             up.institution = Institution.objects.get(
                 pk=request_data['institution']
             )
-            logger.warning(f"POST: Saved user {user} up {up} institution {up.institution}")
             up.save()
 
         except Exception as e:
-            logger.warning(f"POST: Exception occurred: {e}")
             return render(
                 request,
                 'registration/activate_edit.html',
@@ -96,17 +84,14 @@ def activate(request, activation_key):
                 }
             )
         # Normalize before trying anything with it.
-        logger.warning(f"POST: Activation key: {activation_key}")
         try:
-            #rp = RegistrationProfile.objects.get(activation_key=activation_key)
             username = activation_view.validate_key(activation_key=activation_key)
-            logger.warning(f'POST: Activating username {username} with activation key {activation_key}')
             account = activation_view.get_user(username)
-            logger.warning(f'POST: Activating account {account}')
             user.is_active = True
             user.save()
             up.is_social_active = True
             up.save()
+            logger.info('Activating user {account}')
         except Exception as e:
             logger.info('POST: An error occured: %s' % e)
             pass
@@ -126,8 +111,6 @@ def activate(request, activation_key):
                 settings.SERVER_EMAIL,
                 account.email.split(';')
             )
-        else:
-            logger.warning(f"POST: Account {account} is falsey, refusing to send email.")
 
         return render(
             request,

@@ -8,6 +8,7 @@ from xml.etree import ElementTree
 import itertools
 import locale
 import requests
+import traceback
 
 from django.shortcuts import redirect, render
 from django.http import (
@@ -77,7 +78,6 @@ from edumanage.forms import (
     InstitutionURL_i18nFormSet,
     InstServerForm
 )
-#from registration.models import RegistrationProfile
 from django_registration.backends.activation.views import RegistrationView
 from edumanage.decorators import (social_active_required,
                                   cache_page_ifreq,
@@ -137,25 +137,20 @@ def manage_login_front(request):
     user = request.user
     try:
         profile = user.userprofile
-        logger.warning(f"Found profile {profile}")
     except UserProfile.DoesNotExist:
-        logger.warning(f"Profile for user {user} does not exist")
         return render_with_base_ctx(
             request,
             'edumanage/welcome_manage.html'
         )
     except AttributeError:
-        logger.warning(f"AttributeError")
         return render(
             request,
             'edumanage/welcome_manage.html',
             context={}
         )
     if user.is_authenticated and user.is_active and profile.is_social_active:
-        logger.warning(f"Redirecting user {user} to url {reverse('manage')}")
         return redirect(reverse('manage'))
     else:
-        logger.warning(f"is_authenticated {user.is_authenticated} is_active {user.is_active} is_social_active {profile.is_social_active}")
         return render(
             request,
             'edumanage/welcome_manage.html',
@@ -167,15 +162,12 @@ def manage_login_front(request):
 @social_active_required
 @never_cache
 def manage(request):
-    logger.warning(f"Calling manage on login request for user {request.user}")
     services_list = []
     servers_list = []
     user = request.user
     try:
         profile = user.userprofile
-        logger.warning(f"Profile {profile}")
         inst = profile.institution
-        logger.warning(f"Institution {inst}")
     except UserProfile.DoesNotExist:
         return render_with_base_ctx(
             request,
@@ -1523,23 +1515,15 @@ def get_all_services(request):
     locs = localizePointNames(ourPoints(), lang)
     return HttpResponse(json.dumps(locs), content_type='application/json')
 
-
-import logging
-import traceback
-logger = logging.getLogger('debugging')
-
 @never_cache
 def manage_login(request, backend):
     logout(request)
     qs = request.GET.urlencode()
     qs = '?%s' % qs if qs else ''
     if backend == 'shibboleth':
-        logger.warning(f"shibboleth: Redirecting user to {reverse('login') + qs}")
         return redirect(reverse('login') + qs)
     if backend == 'locallogin':
-        logger.warning(f"locallogin: Redirecting user to {reverse('altlogin') + qs}")
         return redirect(reverse('altlogin') + qs)
-    logger.warning(f"Other: Redirecting user to {reverse('social:begin', args=[backend]) + qs}")
     return redirect(reverse('social:begin', args=[backend]) + qs)
 
 @never_cache
@@ -1592,9 +1576,7 @@ def user_login(request):
             try:
                 profile = user.userprofile
                 profile.institution
-                logger.warning(f"Activation: profile {profile} institution {profile.institution}")
             except UserProfile.DoesNotExist:
-                logger.warning(f"User {user} cannot be found.")
                 form = UserProfileForm()
                 form.fields['user'] = forms.ModelChoiceField(
                     queryset=User.objects.filter(pk=user.pk),
@@ -1612,14 +1594,12 @@ def user_login(request):
                 )
 
             if user.is_active:
-                logger.warning(f"User {user} is active. Logging them in now.")
                 login(request, user)
                 return HttpResponseRedirect(
                     request.GET.get(REDIRECT_FIELD_NAME,
                                     default=reverse('manage'))
                 )
             else:
-                logger.warning(f"User {user} is NOT active.")
                 status = _(
                     "User account <strong>%(username)s</strong> is pending"
                     " activation. Administrators have been notified and will"
@@ -1851,7 +1831,6 @@ def user_activation_notify(request, userprofile):
             'user': userprofile.user,
             'institution': userprofile.institution
         })
-    logger.warning(f"Sending activation email for {userprofile.user} to {settings.NOTIFY_ADMIN_MAILS}")
     send_new_mail(
         settings.EMAIL_SUBJECT_PREFIX + subject,
         message, settings.SERVER_EMAIL,
