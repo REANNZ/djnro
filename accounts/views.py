@@ -37,6 +37,14 @@ def activate(request, activation_key):
                 }
             )
         try:
+            # NOTE: This fix works for now but isn't that clean.
+            # This is required because when a new user is created with google-oauth2,
+            # they are marked with is_active = True, which will cause the call to
+            # get_user to fail because it only works when is_active = False.
+            temp_user = User.objects.get(username__exact=username)
+            if temp_user.is_active:
+                temp_user.is_active = False
+                temp_user.save()
             user_profile = activation_view.get_user(username)
         except ActivationError:
             return render(
