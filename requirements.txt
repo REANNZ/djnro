@@ -1,5 +1,5 @@
 # Django 5.2 is an LTS release that will be supported until April 2028.
-Django~=5.2.9
+Django~=5.2.11
 
 # Django-related packages
 django-registration==5.2.1
