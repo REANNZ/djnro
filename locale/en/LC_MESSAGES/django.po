@@ -1044,7 +1044,7 @@ msgstr ""
 
 #: djnro/templates/front/management.html:14
 msgid ""
-"Administrators can log in using either Social Networks or the AAI Federation:"
+"Administrators can log in using either Social Networks or the %(FEDERATION_NAME)s:"
 msgstr ""
 
 #: djnro/templates/front/management.html:17

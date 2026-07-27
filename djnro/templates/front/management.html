@@ -11,11 +11,11 @@
 <hr>
 <div class="span6">
     <p>{% blocktrans %}The management application provides an interface for administrators of federation member institutions to maintain the data that is necessary for participating in the federation.{% endblocktrans %}</p>
-    <p>{% blocktrans %}Administrators can log in using either Social Networks or the AAI Federation:{% endblocktrans %}</p>
+    <p>{% blocktrans %}Administrators can log in using either Social Networks or the {{ FEDERATION_NAME }}:{% endblocktrans %}</p>
     <h5>Social Networks</h5>
     <hr>
     <p>{% blocktrans %}Social networks that have been enabled for authenticating users to the management application are listed under the <b>Manage</b> drop-down menu. Once authenticated, a user may need to assert any missing information that is required by the application (such as an e-mail address). After that, the user can proceed with activation.{% endblocktrans %}</p>
-    <h5>AAI Federation</h5>
+    <h5>{{ FEDERATION_NAME }}</h5>
     <hr>
     <p>{% blocktrans %}Authentication and authorization are carried out through a{% endblocktrans %} <a href="http://shibboleth.net/products/service-provider.html">Shibboleth SP</a>.</p>
     <p>{% blocktrans %}The following attributes are required for administrators and must be released by their home IdPs to the SP{% endblocktrans %} {% trans "according to the" %} {% if FEDERATION_DOC_URL %}<a href="{{ FEDERATION_DOC_URL }} ">{% endif %}{% trans "policy and procedures documentation" %}{% if FEDERATION_DOC_URL %}</a>{% endif %} {% trans "provided by the" %} {{ FEDERATION_NAME }}:
